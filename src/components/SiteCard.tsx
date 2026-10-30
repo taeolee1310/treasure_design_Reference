@@ -1,3 +1,4 @@
+import type { PointerEvent } from "react"
 import { ArrowUpRight } from "lucide-react"
 import type { Site } from "@/data/sites"
 
@@ -9,6 +10,18 @@ const hue = (s: string) => {
 const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
 const host = (u: string) => new URL(u).hostname.replace(/^www\./, "")
 
+/**
+ * 마우스를 따라다니는 은은한 빛(spotlight). 21st.dev의 Spotlight Card(Hossain Jahed)에서
+ * 효과의 아이디어를 얻었다. 원본 소스는 공개되지 않아 보지 못했고, 코드는 직접 작성했다.
+ * 위치는 CSS 변수로만 갱신해서 React 리렌더 없이 가볍게 동작한다(마우스 환경에서만 보인다).
+ */
+const spotlight = (e: PointerEvent<HTMLElement>) => {
+  if (e.pointerType !== "mouse") return
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`)
+}
+
 type Props = { site: Site; step?: number; why?: string[] }
 
 export function SiteCard({ site, step, why }: Props) {
@@ -18,8 +31,17 @@ export function SiteCard({ site, step, why }: Props) {
       href={site.url}
       target="_blank"
       rel="noopener noreferrer"
+      onPointerMove={spotlight}
       className="card-reveal group relative flex flex-col overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card active:scale-[.985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%)",
+        }}
+      />
       <div className="relative aspect-[3/2] overflow-hidden border-b border-line bg-chip">
         {step ? (
           <span

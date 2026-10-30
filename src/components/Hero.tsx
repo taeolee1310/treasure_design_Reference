@@ -1,7 +1,10 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { CATEGORIES } from "@/data/sites"
 import { presets, ALL } from "@/lib/engine"
 import { WorryChips } from "@/components/WorryChip"
+import { TextRotate } from "@/components/ui/text-rotate"
+
+const WORRY_LABELS = presets.map((p) => p.label)
 
 export const wrap = "mx-auto w-full max-w-[1200px] px-[clamp(16px,4vw,32px)]"
 
@@ -33,6 +36,8 @@ function Stat({ n, label }: { n: number | string; label: string }) {
 type Props = { current: string; onPickWorry: (label: string) => void; onGuide: (id: string) => void }
 
 export function Hero({ current, onPickWorry, onGuide }: Props) {
+  const [idx, setIdx] = useState(0)
+  const [hold, setHold] = useState(false)
   return (
     <header className="pb-7 pt-[clamp(48px,9vw,96px)]">
       <div className={wrap}>
@@ -54,20 +59,37 @@ export function Hero({ current, onPickWorry, onGuide }: Props) {
           </p>
         </Rise>
         <Rise i={3}>
+          <p className="mt-6 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[15px] text-muted">
+            <span>혹시 이런 고민이세요?</span>
+            <button
+              type="button"
+              aria-label={`이 고민으로 찾아보기: ${WORRY_LABELS[idx]}`}
+              onClick={() => onPickWorry(WORRY_LABELS[idx])}
+              onPointerEnter={() => setHold(true)}
+              onPointerLeave={() => setHold(false)}
+              onFocus={() => setHold(true)}
+              onBlur={() => setHold(false)}
+              className="rounded-full border border-line-2 bg-surface px-3.5 py-1.5 text-left text-[15px] font-semibold text-ink transition duration-150 ease-out-strong hover:border-accent active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              <TextRotate texts={WORRY_LABELS} paused={hold} onChange={setIdx} rotationInterval={2800} staggerDuration={18} />
+            </button>
+          </p>
+        </Rise>
+        <Rise i={4}>
           <div className="mt-7 flex gap-7 text-sm text-muted max-sm:gap-[22px]">
             <Stat n={ALL.length} label="사이트" />
             <Stat n={CATEGORIES.length} label="카테고리" />
             <Stat n="2026.10" label="업데이트" />
           </div>
         </Rise>
-        <Rise i={4}>
+        <Rise i={5}>
           <div className="mt-9">
             <h2 className="mb-1 text-[15px] font-bold tracking-tight">막막할 땐, 고민부터 골라보세요</h2>
             <p className="mb-3.5 text-[13px] text-muted">누르면 어디서 시작하면 좋은지 순서대로 보여드립니다. 검색창에 직접 적어도 됩니다.</p>
             <WorryChips labels={presets.map((p) => p.label)} current={current} onPick={onPickWorry} />
           </div>
         </Rise>
-        <Rise i={5}>
+        <Rise i={6}>
           <ul className="mt-9 grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-3 p-0">
             {GUIDE.map(([title, sub, id]) => (
               <li key={id} className="list-none">

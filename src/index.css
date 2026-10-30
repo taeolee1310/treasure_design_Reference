@@ -57,6 +57,20 @@
       transform: translateY(14px);
     }
   }
+  --animate-text-in: text-in 0.45s var(--ease-out-strong) both;
+  --animate-text-out: text-out 0.45s var(--ease-out-strong) both;
+  @keyframes text-in {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+  @keyframes text-out {
+    to {
+      opacity: 0;
+      transform: translateY(-120%);
+    }
+  }
 }
 
 @layer base {
@@ -102,6 +116,16 @@
   }
   @keyframes reveal {
     from {
+      opacity: 0;
+    }
+  }
+  @keyframes text-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes text-out {
+    to {
       opacity: 0;
     }
   }

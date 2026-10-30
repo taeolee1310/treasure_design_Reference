@@ -69,6 +69,17 @@ components.json        shadcn CLI 설정 (21st.dev 컴포넌트 추가용)
 npx shadcn@latest add "https://21st.dev/r/<작성자>/<컴포넌트>"
 ```
 
+## 21st.dev에서 가져온 아이디어
+
+둘 다 새 의존성 없이 CSS로 구현했습니다.
+
+| 효과 | 쓰이는 곳 | 출처와 처리 |
+| --- | --- | --- |
+| Text Rotate | 첫 화면의 "혹시 이런 고민이세요?" 문구가 돌아가고, 누르면 그 고민으로 검색 | [Daniel Petho](https://21st.dev/@danielpetho/components/text-rotate) (MIT). 공개된 동작 명세를 따라 `motion` 없이 직접 구현 → [src/components/ui/text-rotate.tsx](src/components/ui/text-rotate.tsx) |
+| Spotlight Card | 카드에 마우스를 올리면 따라오는 은은한 빛 | [Hossain Jahed](https://21st.dev/@jahed/components/spotlight-card). 소스가 로그인 뒤에 있고 라이선스 표기가 없어 코드는 보지 않았고, 효과 아이디어만 참고해 직접 구현 → [src/components/SiteCard.tsx](src/components/SiteCard.tsx) |
+
+`AI prompt Box`도 검토했지만 framer-motion과 radix 의존성이 붙고 파일·음성 기능까지 있어서 이 서비스에는 무거워 제외했습니다.
+
 ## 배포
 
 GitHub 저장소를 Vercel에 연결해 두었습니다. `main`에 push하면 `vercel.json` 설정(Vite, `dist`)대로 자동 빌드·배포됩니다.
