@@ -31,8 +31,8 @@ export default function App() {
 
   return (
     <>
-      <Hero current={q} onPickWorry={pickWorry} onGuide={goGuide} />
-      <Toolbar active={active} onActive={pickCategory} query={query} onQuery={setQuery} />
+      <Hero current={q} query={query} onQuery={setQuery} onSubmit={scrollToToolbar} onPickWorry={pickWorry} onGuide={goGuide} />
+      <Toolbar active={active} onActive={pickCategory} />
       <main className={wrap}>{result ? <SearchResults result={result} query={q} onPick={pickWorry} /> : <Browse active={active} />}</main>
       <footer className="py-[72px] text-[13px] text-muted">
         <div className={wrap}>

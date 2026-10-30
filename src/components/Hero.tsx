@@ -3,6 +3,7 @@ import { CATEGORIES } from "@/data/sites"
 import { presets, ALL } from "@/lib/engine"
 import { WorryChips } from "@/components/WorryChip"
 import { TextRotate } from "@/components/ui/text-rotate"
+import { SearchBox } from "@/components/SearchBox"
 
 const WORRY_LABELS = presets.map((p) => p.label)
 
@@ -33,9 +34,16 @@ function Stat({ n, label }: { n: number | string; label: string }) {
   )
 }
 
-type Props = { current: string; onPickWorry: (label: string) => void; onGuide: (id: string) => void }
+type Props = {
+  current: string
+  query: string
+  onQuery: (q: string) => void
+  onSubmit: () => void
+  onPickWorry: (label: string) => void
+  onGuide: (id: string) => void
+}
 
-export function Hero({ current, onPickWorry, onGuide }: Props) {
+export function Hero({ current, query, onQuery, onSubmit, onPickWorry, onGuide }: Props) {
   const [idx, setIdx] = useState(0)
   const [hold, setHold] = useState(false)
   return (
@@ -76,6 +84,9 @@ export function Hero({ current, onPickWorry, onGuide }: Props) {
           </p>
         </Rise>
         <Rise i={4}>
+          <div className="mt-6">
+            <SearchBox query={query} onQuery={onQuery} onSubmit={onSubmit} />
+          </div>
           <div className="mt-7 flex gap-7 text-sm text-muted max-sm:gap-[22px]">
             <Stat n={ALL.length} label="사이트" />
             <Stat n={CATEGORIES.length} label="카테고리" />
