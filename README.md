@@ -12,9 +12,21 @@
 - **추천 이유 표시:** 결과 카드마다 왜 추천했는지 보여줍니다.
 - **모바일과 다크모드**를 지원하고, 모션은 첫 화면과 카드 등장 정도로 최소한만 씁니다.
 
+## 기술 스택
+
+React 19, TypeScript, Tailwind CSS v4, Vite, lucide-react. 서버 없이 정적 파일로 배포됩니다.
+
+```bash
+npm install
+npm run dev       # 개발 서버
+npm run build     # 타입 검사 + 빌드 (dist/)
+npm run preview   # 빌드 결과 미리보기
+npm test          # 검색 정확도 테스트
+```
+
 ## 검색은 이렇게 동작합니다
 
-서버나 외부 API 없이 브라우저에서 모두 처리합니다. 코드는 [search.js](search.js)에 있습니다.
+서버나 외부 API 없이 브라우저에서 모두 처리합니다. 코드는 [src/lib/search.ts](src/lib/search.ts)에 있습니다.
 
 1. **개념 사전.** "막막해요", "뭐라고 부르더라" 같은 구어체와 영어 표현을 40여 개 개념(무드, 온보딩, 포트폴리오 등)으로 묶었습니다. 질문을 단어가 아니라 의도로 읽습니다.
 2. **사이트별 가중치.** 사이트마다 어떤 개념에 강한지 1~3점으로 연결했습니다. 근거는 각 사이트를 직접 수집한 내용(제목, 소개 문구, 제목 태그)입니다.
@@ -26,33 +38,40 @@
 ## 구성
 
 ```
-index.html      화면과 사이트 데이터(CATS)
-search.js       고민 검색 엔진(개념 사전, 가중치, 추천 경로)
-thumbs/         사이트 첫 화면 스크린샷 (2026년 10월 기준)
-tests/          검색 테스트
+src/
+  data/sites.ts        사이트 목록(카테고리별)
+  lib/search.ts        고민 검색 엔진(개념 사전, 가중치, 추천 경로)
+  lib/engine.ts        엔진과 사이트 데이터를 잇는 얇은 층
+  lib/utils.ts         cn() 유틸 (shadcn 호환)
+  components/          Hero, Toolbar, Results, SiteCard 등
+  index.css            Tailwind 설정과 디자인 토큰(라이트/다크)
+public/thumbs/         사이트 첫 화면 스크린샷 (2026년 10월 기준)
+tests/                 검색 테스트
+components.json        shadcn CLI 설정 (21st.dev 컴포넌트 추가용)
 ```
-
-빌드 과정이 없는 정적 사이트입니다. `index.html`을 열면 바로 보입니다.
 
 ## 사이트 추가하기
 
-1. `index.html`의 `CATS`에서 맞는 카테고리 배열에 항목을 추가합니다.
-   `["이름", "한글 발음", "URL", "설명", "이럴 때 써요"]`
-2. 썸네일을 `thumbs/`에 `이름을-소문자-하이픈.jpg`로 넣습니다. 예: `land-book.jpg`
-3. `search.js`에서 두 가지를 채웁니다.
+1. [src/data/sites.ts](src/data/sites.ts)의 맞는 카테고리에 항목을 추가합니다.
+2. 썸네일을 `public/thumbs/`에 `이름을-소문자-하이픈.jpg`로 넣습니다. 예: `land-book.jpg`
+3. [src/lib/search.ts](src/lib/search.ts)에서 두 가지를 채웁니다.
    - `WEIGHTS_SRC`에 개념 가중치를 추가합니다. 예: `"새 사이트":"landing3 web2"`
    - `TAGS`에 검색에 걸릴 키워드를 추가합니다.
-4. 테스트를 돌려서 기존 질문의 결과가 바뀌지 않았는지 확인합니다.
+4. `npm test`로 기존 질문의 결과가 바뀌지 않았는지 확인합니다.
+
+테스트는 구어체 질문 60여 개에 정답 사이트를 정해 두고, 상위 결과에 나오는지 확인합니다. 새로 발견한 엉뚱한 추천은 `tests/search.test.mjs`에 질문을 추가해서 고정하세요.
+
+## 21st.dev 컴포넌트 추가하기
+
+`@/` 경로 별칭과 `components.json`이 설정되어 있어서 shadcn CLI로 바로 추가할 수 있습니다. 컴포넌트마다 라이선스가 다르니 가져오기 전에 확인하세요.
 
 ```bash
-node tests/search.test.js
+npx shadcn@latest add "https://21st.dev/r/<작성자>/<컴포넌트>"
 ```
-
-테스트는 구어체 질문 60여 개에 정답 사이트를 정해 두고, 상위 결과에 나오는지 확인합니다. 새로 발견한 엉뚱한 추천은 `tests/search.test.js`에 질문을 추가해서 고정하세요.
 
 ## 배포
 
-GitHub 저장소를 Vercel에 연결해 두었습니다. `main`에 push하면 자동으로 배포됩니다.
+GitHub 저장소를 Vercel에 연결해 두었습니다. `main`에 push하면 `vercel.json` 설정(Vite, `dist`)대로 자동 빌드·배포됩니다.
 
 ## 참고
 

@@ -1,13 +1,8 @@
-/* UI/UX 보물창고 — 고민 검색 엔진 (정적, 서버·API 없음)
- *
- * 구조
- *  1) CONCEPTS  : 개념 사전. 한국어 구어체·영어 표현을 하나의 개념으로 묶는다.
- *  2) WEIGHTS   : 사이트 ↔ 개념 연결 강도(1~3). 직접 수집한 사이트 내용에 근거.
- *  3) PRESETS   : 고민별 큐레이션 경로(순서가 있는 추천).
- *  4) 엔진      : 질문 → 개념 인식(정확 일치 + 자모 오타 허용 + 초성) → 점수 → 결과/경로/대안
+// @ts-nocheck — 검색 엔진은 순수 함수 모음이라 타입을 느슨하게 둔다. 공개 타입은 아래 export 참고.
+/* UI/UX 보물창고 — 고민 검색 엔진 (서버·API 없음)
+ *  1) CONCEPTS: 개념 사전  2) WEIGHTS: 사이트↔개념 가중치  3) PRESETS: 고민별 추천 경로  4) 엔진
  */
-(function (root) {
-  'use strict';
+
 
 const TAGS = {
   "Mobbin":"플로우 온보딩 결제 설정 앱 화면 모바일 ios android 사용자 흐름 ux 벤치마킹",
@@ -357,6 +352,5 @@ const PRESETS = [
     return {query, presets: PRESETS, concepts: CONCEPTS, detect};
   }
 
-  root.SearchEngine = {create, CONCEPTS, WEIGHTS, PRESETS};
-  if (typeof module !== "undefined") module.exports = root.SearchEngine;
-})(typeof window !== "undefined" ? window : globalThis);
+
+export { create as createEngine, CONCEPTS, WEIGHTS, PRESETS }

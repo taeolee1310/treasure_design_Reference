@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* 디자인 토큰: 라이트/다크 */
+:root {
+  --bg: #f5f3ee;
+  --surface: #fffdf9;
+  --ink: #1b1a17;
+  --ink-2: #4a4741;
+  --muted: #7a766d;
+  --line: #e3dfd5;
+  --line-2: #d3cec1;
+  --accent: #d9480f;
+  --on-accent: #fff;
+  --accent-soft: #fbe9df;
+  --chip: #ece8de;
+  --shadow: 0 1px 1px rgba(30, 25, 15, 0.04), 0 10px 30px -8px rgba(30, 25, 15, 0.16);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121211;
+    --surface: #1b1a18;
+    --ink: #f3f0e8;
+    --ink-2: #c9c5ba;
+    --muted: #928e84;
+    --line: #2b2926;
+    --line-2: #3a3733;
+    --accent: #ff8a4c;
+    --on-accent: #1a0e05;
+    --accent-soft: #2c1d14;
+    --chip: #252320;
+    --shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 14px 34px -8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-chip: var(--chip);
+  --shadow-card: var(--shadow);
+  --font-sans: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+@theme {
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-rise: rise 0.5s var(--ease-out-strong) both;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 76px;
+  }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    line-height: 1.6;
+    word-break: keep-all;
+  }
+  button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* 카드 등장: 스크롤 연동(Chromium). 미지원 브라우저는 그냥 표시 */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@utility card-reveal {
+  @supports (animation-timeline: view()) {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+}
+
+/* 동작 줄이기: 위치 이동은 빼고 페이드만 남긴다 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes reveal {
+    from {
+      opacity: 0;
+    }
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scale: none !important;
+    translate: none !important;
+  }
+}

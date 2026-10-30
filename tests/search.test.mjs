@@ -1,11 +1,9 @@
-// node search.test.js  — 질문 → 기대 사이트(경로 추천 + 결과 상위) 검사
-const fs = require('fs'), vm = require('vm');
-const html = fs.readFileSync(__dirname + '/../index.html', 'utf8');
-const m = html.match(/const CATS = \[[\s\S]*?\n\];/);
-const CATS = vm.runInNewContext(m[0] + '; CATS');
-const SE = require('../search.js');
-const items = CATS.flatMap(c => c.items.map(it => ({name: it[0], ko: it[1], text: it[3], when: it[4], cat: c.title})));
-const eng = SE.create(items);
+// node tests/search.test.mjs — 질문 → 기대 사이트(경로 추천 + 결과 상위) 검사
+import { CATEGORIES } from "../src/data/sites.ts"
+import { createEngine } from "../src/lib/search.ts"
+
+const items = CATEGORIES.flatMap((c) => c.items.map((s) => ({ name: s.name, ko: s.ko, text: s.text, when: s.when, cat: c.title })))
+const eng = createEngine(items)
 
 // [질문, [기대 사이트 중 하나 이상이 나와야 함], (선택) 기대 경로 라벨 일부]
 const T = [
