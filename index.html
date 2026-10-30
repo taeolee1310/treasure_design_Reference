@@ -10,12 +10,12 @@
 <style>
 :root{
   --bg:#f5f3ee; --surface:#fffdf9; --ink:#1b1a17; --ink-2:#4a4741; --muted:#7a766d; --line:#e3dfd5; --line-2:#d3cec1;
-  --accent:#d9480f; --accent-soft:#fbe9df; --chip:#ece8de;
+  --accent:#d9480f; --on-accent:#fff; --accent-soft:#fbe9df; --chip:#ece8de;
   --shadow:0 1px 1px rgba(30,25,15,.04),0 10px 30px -8px rgba(30,25,15,.16);
   --r:18px; --ease:cubic-bezier(0.23,1,0.32,1);
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#121211;--surface:#1b1a18;--ink:#f3f0e8;--ink-2:#c9c5ba;--muted:#928e84;--line:#2b2926;--line-2:#3a3733;--accent:#ff8a4c;--accent-soft:#2c1d14;--chip:#252320;--shadow:0 1px 1px rgba(0,0,0,.4),0 14px 34px -8px rgba(0,0,0,.6)}
+  :root{--bg:#121211;--surface:#1b1a18;--ink:#f3f0e8;--ink-2:#c9c5ba;--muted:#928e84;--line:#2b2926;--line-2:#3a3733;--accent:#ff8a4c;--on-accent:#1a0e05;--accent-soft:#2c1d14;--chip:#252320;--shadow:0 1px 1px rgba(0,0,0,.4),0 14px 34px -8px rgba(0,0,0,.6)}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
@@ -47,7 +47,7 @@ h1{font-size:clamp(40px,8vw,84px);line-height:1.04;margin:14px 0 18px;letter-spa
 .chip small{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip[aria-pressed=true] small{color:inherit;opacity:.7}
-.search{flex:0 1 260px;min-width:150px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;transition:border-color .15s}
+.search{flex:0 1 380px;min-width:150px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;transition:border-color .15s}
 .search::placeholder{color:var(--muted)}
 .search:focus{outline:none;border-color:var(--accent)}
 .chip:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -77,17 +77,30 @@ section .desc{color:var(--ink-2);margin:0 0 22px;max-width:680px;font-size:15px}
 footer{padding:72px 0;color:var(--muted);font-size:13px}
 footer .wrap{border-top:1px solid var(--line);padding-top:24px}
 
+/* Worry finder */
+.worries{margin-top:36px}
+.worries-title{font-size:15px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+.worries-sub{margin:0 0 14px;font-size:13px;color:var(--muted)}
+.worry-chips{display:flex;flex-wrap:wrap;gap:8px}
+.worry{border:1px dashed var(--line-2);background:transparent;color:var(--ink-2);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;transition:border-color .15s,color .15s,transform .12s var(--ease)}
+.worry:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.worry[aria-pressed=true]{border-style:solid;border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+.tip{background:var(--accent-soft);border-radius:14px;padding:14px 18px;margin:0 0 22px;max-width:760px;font-size:15px;color:var(--ink)}
+.step{position:absolute;left:12px;top:12px;z-index:1;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:14px;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.solve .num{font-size:13px}
+
 /* Motion: hover (pointer devices only), press, hero entrance, scroll reveal */
 @media (hover:hover) and (pointer:fine){
   .guide button:hover{border-color:var(--accent);transform:translateY(-2px)}
   .chip:hover{border-color:var(--line-2);color:var(--ink)}
+  .worry:hover{border-style:solid;border-color:var(--accent);color:var(--ink)}
   .card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-2)}
   .card:hover .thumb img{transform:scale(1.035)}
   .card:hover .go{opacity:1;transform:none}
 }
 @media (hover:none){.go{opacity:1;transform:none}}
 .chip,.guide button,.card{-webkit-tap-highlight-color:transparent}
-.chip:active{transform:scale(.96)}
+.chip:active,.worry:active{transform:scale(.96)}
 .guide button:active,.card:active{transform:scale(.985)}
 .chip{transition:background .15s,color .15s,border-color .15s,transform .12s var(--ease)}
 
@@ -98,6 +111,7 @@ header .wrap>:nth-child(2){--i:1}
 header .wrap>:nth-child(3){--i:2}
 header .wrap>:nth-child(4){--i:3}
 header .wrap>:nth-child(5){--i:4}
+header .wrap>:nth-child(6){--i:5}
 
 @keyframes reveal{from{opacity:0;transform:translateY(18px)}}
 @supports (animation-timeline:view()){
@@ -128,6 +142,11 @@ header .wrap>:nth-child(5){--i:4}
     <h1>UI/UX<br>보물창고</h1>
     <p class="lead">화면을 설계하고 영감을 모으고 작업을 보여주고 배움을 이어가는 데 쓰는 사이트를 상황별로 정리했습니다.</p>
     <div class="stats"><div><b id="stat-sites">0</b>사이트</div><div><b id="stat-cats">0</b>카테고리</div><div><b>2026.10</b>업데이트</div></div>
+    <div class="worries">
+      <h2 class="worries-title">막막할 땐, 고민부터 골라보세요</h2>
+      <p class="worries-sub">누르면 어디서 시작하면 좋은지 순서대로 보여드립니다. 검색창에 직접 적어도 됩니다.</p>
+      <div class="worry-chips" id="worries"></div>
+    </div>
     <ul class="guide" id="guide"></ul>
   </div>
 </header>
@@ -135,12 +154,12 @@ header .wrap>:nth-child(5){--i:4}
 <div class="toolbar">
   <div class="wrap">
     <div class="chips" id="chips"></div>
-    <input class="search" id="q" type="search" placeholder="사이트·키워드 검색" aria-label="검색">
+    <input class="search" id="q" type="search" placeholder="고민을 적어보세요 (예: 무드보드 어떻게 시작하지)" aria-label="고민 또는 키워드 검색">
   </div>
 </div>
 
 <main class="wrap" id="main" tabindex="-1"></main>
-<div class="wrap"><p class="empty" id="empty">검색 결과가 없습니다.</p></div>
+<div class="wrap"><p class="empty" id="empty">딱 맞는 곳을 찾지 못했어요. 다른 말로 적어 보거나, 위의 고민 중에서 골라 보세요.</p></div>
 
 <footer class="wrap">
   썸네일은 2026년 10월 기준 각 사이트의 첫 화면 스크린샷입니다. 아이콘·폰트·목업을 상업적으로 쓸 때는 각 사이트의 라이선스를 꼭 확인하세요.
@@ -205,13 +224,142 @@ const slug = n => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, 
 const host = u => new URL(u).hostname.replace(/^www\./, "");
 const thumbUrl = name => "thumbs/" + slug(name) + ".jpg";
 
+
+// ---- 고민 해결 로직: 큐레이션 경로 + 키워드/바이그램 매칭 (서버·API 없음) ----
+const TAGS = {
+  "Mobbin":"플로우 온보딩 결제 설정 앱 화면 모바일 ios android 사용자 흐름 ux 벤치마킹",
+  "Refero":"ui 요소 패턴 필터 빈화면 검색 컴포넌트 화면",
+  "Refero Styles":"디자인시스템 스타일 색 타이포 간격 토큰 ai design.md",
+  "Collect UI":"히어로 로그인 가격표 화면 종류 비교 dribbble 시안",
+  "Name That UI":"용어 이름 명칭 패턴 masonry 소통 개발자",
+  "Land-book":"랜딩 랜딩페이지 섹션 구성 흐름 웹사이트",
+  "SiteInspire":"웹디자인 포트폴리오 브랜드 에이전시 레이아웃 차분한",
+  "Awwwards":"인터랙션 모션 수상작 크리에이티브 최고 비주얼 웹",
+  "Httpster":"랜딩 포트폴리오 감각적 큐레이션 스타일",
+  "Recent":"트렌드 최신 피드 브랜딩 모션 앱아이콘 채용 매일",
+  "Savee":"무드보드 이미지 북마크 영감 레퍼런스 수집 아트디렉터",
+  "Cosmos":"무드보드 클러스터 아카이브 정리 공유 영감 분류",
+  "It's Nice That":"트렌드 안목 매거진 인터뷰 크리에이터 뉴스 영국",
+  "NOWNESS":"영상 색감 연출 문화 예술 패션",
+  "The Dieline":"패키지 제품 브랜딩 실물",
+  "The Brand Identity":"로고 브랜드 아이덴티티 시스템 스튜디오 인터뷰",
+  "BP&O":"비평 브랜딩 패키지 블로그 시각",
+  "Visuelle":"타이포 레이아웃 편집 그래픽 아이덴티티",
+  "Metalab":"프로덕트 디자인 에이전시 케이스스터디 스타트업 앱 slack",
+  "Koto":"리브랜딩 브랜드 전략 디지털 에이전시 케이스스터디",
+  "Studio Kiln":"모션 브랜드 시스템 아이덴티티 절차적 그래픽 케이스스터디",
+  "Eloqwnt":"핀테크 saas b2b ai 랜딩 앱 ui 케이스스터디",
+  "Feather Icons":"아이콘 svg 무료 오픈소스 와이어프레임 프로토타입",
+  "Craftwork":"목업 ui키트 일러스트 3d 에셋 포트폴리오",
+  "animos":"영상 쇼케이스 포트폴리오 sns 소개 모션 mp4",
+  "Kimera Waldenburg":"서체 폰트 타이포 산세리프 유료 스페시멘",
+  "21st.dev":"컴포넌트 react tailwind 코드 구현 인터랙션 개발",
+  "Framer":"노코드 웹사이트 제작 배포 포트폴리오 랜딩 빌더",
+  "Into Design Systems":"디자인시스템 컨퍼런스 밋업 토큰 피그마 변수 강연 교육",
+  "ilovecreatives":"커뮤니티 채용 강의 프리랜서 직무 취업 커리어"
+};
+
+const FACTS = {"Mobbin": "discover ios apps | mobbin browse and search across hundreds of ios apps for ui & ux research.", "Refero": "refero — ui/ux design inspiration for your next project the largest collection of ui/ux references and design inspiration for web and ios. explore tens of thousands of screenshots with advanced search capabilities", "Refero Styles": "website styles & design.md library | refero styles explore real website styles and their ai-readable design.md files. compare screenshots, colors, typography, and spacing to find a direction for your project. apple iphon", "Collect UI": "hero-section ui design inspiration - collect ui discover amazing hero-section designs and inspiration on collect ui network directory top sponsors adobe creative cloud", "Name That UI": "masonry layout (pinterest grid) — namethatui “the pinterest style grid where every card is a different height” is called masonry layout (pinterest grid). cards of different heights packed into columns with no row gaps. “", "Land-book": "landbook - website design inspiration gallery find the best hand-picked website design inspiration. we're a curated website design gallery for creatives, updated daily. landbook - website design inspiration gallery unloc", "SiteInspire": "the best websites | page 2 | siteinspire page 2 of the best website design examples & modern web inspiration. browse our handpicked collection of creative sites to inspire your next web design project. explore websites e", "Awwwards": "good fella - awwwards sotd good fella builds websites for brands who care about craft. founded by brothers julian and adrian. we embed into your team and ship work we're actually... site of the day - mar 18, 2026 good fe", "Httpster": "website design inspiration | httpster website design inspiration. get inspired by our gallery of creative design ideas and great examples of beautiful award-winning sites. website design inspiration", "Recent": "recent — design inspiration the best design inspiration on the internet. browse resources design", "Savee": "savee savee is a curated place for visual inspiration. discover references chosen by designers, collect what matters, and build a sharper eye without ads or clutter. the best place to save and share inspiration finding t", "Cosmos": "sequence / cosmos the weekly cosmos newsletter on culture, design, fashion, technology, and the internet. sequence this week in sequence adriana roslin", "It's Nice That": "it's nice that inspiring creativity the nice feed refreshed 19h ago exactly how apple music used sound to build its new brand identity 100 tracks, 100 science projects: jazz-punk band robocobra quartet create a new band ", "NOWNESS": "nowness short films video culture art fashion design music", "The Dieline": "popular - dieline most popular the “most popular” category is a dynamic showcase of the products and designs that capture the hearts and imaginations of consumers. this collection features packaging that stands out not o", "The Brand Identity": "the brand identity store – curated design assets, mockups & templates presentation decks, mockups, motion templates, tools, graphics and more. curated by the brand identity since 2015. sell in our store", "BP&O": "bp&o - branding, packaging and opinion logo, brand identity, packaging and graphic design blog, daily design inspiration, review, news and opinion from richard baird. latest dutchscot brings a beautifully nuanced take on", "Visuelle": "graphic design and everything in between visuelle is a leading global graphic design platform that showcases the best brand and visual identity projects. house with a pool unfound studio with klaudia klimas oraio substan", "Metalab": "metalab | we make interfaces metalab helps some of the world's top companies — like slack and google — design, build, and ship amazing products and services. we make interfaces", "Koto": "case studies and impactful partnerships at koto | koto see how koto pushes boundaries with ambitious ideas, working with innovative businesses to create bold work and lasting partnerships. channels explore our work", "Studio Kiln": "bafta 2026 studio kiln partners with bafta to create a procedurally generated identity system, visualising the energy of creativity across its iconic award ceremonies. visualising the energy of creativity for bafta’s ico", "Eloqwnt": "work & case studies — eloqwnt | b2b tech & enterprise design explore 60+ projects across fintech, ai, enterprise tech, and corporate brands. see how eloqwnt solves complex design challenges for b2b and tech companies. 60", "Feather Icons": "feather – simply beautiful open source icons feather is a collection of simply beautiful open source icons. each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency and readability. simply beauti", "Craftwork": "mockups: iphone, macbook, branding and print • craftwork realistic iphone, macbook, branding, packaging and print mockups. drop in your design and export presentation-ready shots. free mockups included. device, branding ", "animos": "animos — motion templates for design showcases animos — ready-made animation templates for showcasing your designs. drop in images or videos, tweak, and export mp4/webm in your browser.", "Kimera Waldenburg": "kimera corp kimera is a type foundry, offering retail and bespoke typefaces for international clients. kimera is a design studio, providing art direction in the fields of culture, art and lifestyle. kimera is a store for", "21st.dev": "react components, templates & themes — 12,000+ crafted ui | 21st 12,000+ hand-crafted react and tailwind css components, templates, and shadcn themes by real design engineers. preview live, install with one command — for", "Framer": "framer: build and launch campaign websites with ai turn campaign briefs into polished web experiences with framer agents. create, publish, iterate, and scale campaigns without developer handoffs. build and run campaign s", "Into Design Systems": "design meetups worldwide: ai + design system meetup events | into design systems free design meetups and design system meetup events, hosted in person by companies in cities worldwide and streamed online. see the upcomin", "ilovecreatives": "ilovecreatives the digital trade school for slashies looking to stack their creative skills alongside a good vibes community. take an online course, connect with creatives, find creative jobs and events. the digital trad"};
+const TAGS_EXTRA = {"Mobbin": "mcp ai 연동 수백 개 앱 ui ux 리서치", "Refero": "스크린샷 수만 장 고급 검색 웹 ios", "Refero Styles": "ai 읽는 design.md 스타일 비교 방향 잡기 코딩 에이전트", "Cosmos": "뉴스레터 주간 문화 패션 기술 인터넷", "Savee": "광고 없는 ai 에이전트 안목 검색 한 번에", "Recent": "디자인 채용 리소스 매일 영감", "Visuelle": "그래픽 디자인 플랫폼 브랜드 비주얼 아이덴티티 프로젝트", "BP&O": "로고 리뷰 의견 매일 영감 블로그", "The Brand Identity": "스토어 발표 덱 목업 모션 템플릿 도구 그래픽", "Metalab": "slack google 인터페이스 제품 설계 출시", "Koto": "프로젝트 파트너십 협업 대담한 사례", "Eloqwnt": "60개 프로젝트 엔터프라이즈 복잡한 문제 b2b", "animos": "템플릿 브라우저에서 mp4 webm 내보내기", "Kimera Waldenburg": "타입 파운드리 맞춤 서체 아트디렉션 문화 예술", "21st.dev": "1만 2천 개 shadcn 테마 템플릿 한 줄 설치 ai 에이전트 복사 붙여넣기", "Framer": "ai 에이전트 캠페인 마케터 개발자 없이 발행", "Into Design Systems": "ai 밋업 도시 온라인 무료 행사 컨퍼런스", "ilovecreatives": "온라인 코스 슬래셔 부업 크리에이터 구인 좋은 분위기"};
+for (const [k, v] of Object.entries(TAGS_EXTRA)) TAGS[k] = (TAGS[k] || "") + " " + v;
+
+const PRESETS = [
+  {label:"화면 구성이 막막해요", keys:"화면 구성 레이아웃 와이어프레임 시작 설계 플로우 ux 흐름 앱 화면 기획 막막",
+   picks:["Mobbin","Refero","Collect UI","Name That UI"],
+   tip:"먼저 Mobbin에서 비슷한 서비스의 전체 플로우를 훑어보세요. 그다음 Refero에서 필터나 빈 화면 같은 요소만 골라 보고, Collect UI로 여러 안을 나란히 비교하면 방향이 잡힙니다."},
+  {label:"무드와 방향을 못 잡겠어요", keys:"무드 방향 키워드 콘셉트 컨셉 아이데이션 무드보드 영감 아이디어 막힘 레퍼런스 수집 영감 떠오르지 막혔어요 시작 초반 발상",
+   picks:["Savee","Cosmos","Recent","It's Nice That"],
+   tip:"Savee나 Cosmos에서 마음에 드는 이미지를 먼저 모아 보세요. 열 장쯤 쌓이면 공통점이 보이고, 그게 프로젝트의 무드 키워드가 됩니다. Recent는 요즘 흐름을 가볍게 확인할 때 좋습니다."},
+  {label:"랜딩페이지 구성이 안 떠올라요", keys:"랜딩 페이지 랜딩페이지 히어로 섹션 구성 홈페이지 웹사이트 레이아웃 사이트",
+   picks:["Land-book","Httpster","SiteInspire","Awwwards"],
+   tip:"Land-book에서 섹션 순서와 흐름을 먼저 참고하세요. Httpster와 SiteInspire는 스타일별로 나눠 볼 수 있고, 인터랙션이 필요하면 Awwwards 수상작을 보면 됩니다."},
+  {label:"디자인 용어를 몰라서 검색이 안 돼요", keys:"용어 이름 명칭 뭐라고 검색 패턴 컴포넌트 그거 이름 소통 개발자",
+   picks:["Name That UI","Collect UI","Refero Styles"],
+   tip:"찾는 화면의 이름을 모르면 Name That UI에서 용어와 예시를 확인하세요. 이름을 알았다면 Collect UI에서 같은 종류의 화면을 모아 보고, 정리된 스타일 기준은 Refero Styles에서 볼 수 있습니다."},
+  {label:"케이스 스터디를 어떻게 쓸지 모르겠어요", keys:"케이스 스터디 케이스스터디 포트폴리오 글쓰기 구성 작성 프로세스 에이전시 사례 정리",
+   picks:["Metalab","Koto","Eloqwnt","Studio Kiln"],
+   tip:"Metalab과 Eloqwnt는 프로덕트 프로젝트를 어떤 순서로 보여주는지 살피기 좋습니다. Koto와 Studio Kiln은 브랜드 작업을 소개하는 방식이 달라서, 두 쪽을 비교하며 내 글의 구성을 잡아 보세요."},
+  {label:"눈에 띄는 비주얼이 필요해요", keys:"인터랙션 모션 비주얼 화려 임팩트 눈에 띄는 애니메이션 트렌디 독특",
+   picks:["Awwwards","Studio Kiln","21st.dev","Recent"],
+   tip:"Awwwards 수상작에서 인터랙션의 상한선을 확인하고, Studio Kiln에서 움직이는 브랜드 시스템을 보세요. 실제로 구현할 방법은 21st.dev의 컴포넌트에서 찾을 수 있습니다."},
+  {label:"포트폴리오를 직접 만들고 싶어요", keys:"포트폴리오 사이트 제작 만들기 노코드 목업 제작 발표 영상 폰트 배포",
+   picks:["Framer","Craftwork","animos","Kimera Waldenburg"],
+   tip:"Framer로 코드 없이 사이트를 만들고, Craftwork의 목업으로 작업물을 입히세요. animos로 짧은 소개 영상을 만들면 SNS에도 바로 쓸 수 있습니다. 서체가 고민이면 Kimera Waldenburg를 살펴보세요."},
+  {label:"디자인 시스템을 공부하고 싶어요", keys:"디자인시스템 토큰 컴포넌트 변수 피그마 일관성 스타일 가이드 아이콘 공부",
+   picks:["Refero Styles","Into Design Systems","21st.dev","Feather Icons"],
+   tip:"Refero Styles에서 유명 사이트의 색과 간격 기준을 읽어 보고, Into Design Systems의 강연으로 토큰과 컴포넌트 개념을 배우세요. 가볍게 시작하려면 Feather Icons 같은 아이콘 세트를 써 보는 것도 방법입니다."},
+  {label:"취업·커리어가 고민이에요", keys:"취업 커리어 채용 이직 직무 프리랜서 구직 커뮤니티 성장",
+   picks:["ilovecreatives","Into Design Systems","Metalab"],
+   tip:"ilovecreatives에서 해외 채용 공고와 프리랜서 문화를 먼저 살펴보세요. 디자인 시스템에 관심이 있다면 Into Design Systems의 밋업이 도움이 되고, Metalab 같은 에이전시의 작업 방식은 지원할 곳을 고를 때 참고가 됩니다."},
+  {label:"AI 코딩 도구에 디자인을 입히고 싶어요", keys:"ai 에이전트 코딩 도구 클로드 커서 mcp design.md 스타일 지정 바이브코딩 컴포넌트 프롬프트",
+   picks:["Refero Styles","21st.dev","Mobbin","Savee"],
+   tip:"Refero Styles에서 마음에 드는 사이트의 DESIGN.md를 받아 AI 도구에 넘기면 스타일 기준을 한 번에 전달할 수 있습니다. 21st.dev는 복사해서 바로 쓰는 React 컴포넌트가 많고, Mobbin은 MCP로 연결해 실제 앱 화면을 참고시킬 수 있습니다. Savee는 AI 에이전트에게 취향을 알려주는 기능을 내세우고 있어 함께 살펴볼 만합니다."},
+  {label:"안목을 키우고 싶어요", keys:"안목 감각 트렌드 눈 높이 비평 타이포 매거진 읽기 센스",
+   picks:["It's Nice That","BP&O","Visuelle","NOWNESS"],
+   tip:"하루에 한 곳씩 It's Nice That를 읽고, 마음에 드는 작업은 왜 좋은지 한 줄로 적어 보세요. BP&O는 평가까지 덧붙여서 비평하는 눈을 기르기 좋고, Visuelle과 NOWNESS는 타이포와 영상 감각을 넓혀 줍니다."}
+];
+
+const ALL = CATS.flatMap(c => c.items.map(it => ({it, cat: c})));
+const byName = Object.fromEntries(ALL.map(o => [o.it[0], o]));
+const HAY = ALL.map(o => ({o, name: (o.it[0] + " " + o.it[1]).toLowerCase(), hay: (o.it.join(" ") + " " + (TAGS[o.it[0]] || "") + " " + (FACTS[o.it[0]] || "") + " " + o.cat.title).toLowerCase()}));
+// 질문 말투에서 자주 나오는 조각은 매칭에서 뺀다
+const STOPBI = new Set(["해요","어요","에요","싶어","어떻","떻게","하면","좋을","을까","까요","모르","르겠","겠어","있나","나요","고민","민이","이에","는데","할지","해야","하지","같아","것같","습니","니다","합니","하고","있는","시작","추천","알려","찾고","필요","싶은","없어","안돼","돼요","이에","예요"]);
+
+// 모든 사이트에 해당하는 흔한 말은 변별력이 없어서 뺀다
+const STOPTOK = new Set(["디자인","디자이너","사이트","사이트들","레퍼런스","참고","사례","스타일","웹","앱","좋은","멋진","예쁜","보고","싶어","싶어요","어떻게","뭐","뭘","있나요","알려줘","알려주고","추천"]);
+const STOPBI2 = new Set(["떠올","올라","라요","보고","고싶","안돼","막막","막해","해요"]);
+
+function terms(q) {
+  const stem = t => { if (!/[가-힣]/.test(t)) return t; const r = t.replace(/(한테|에게|에서|으로|이에요|해요|이|가|은|는|을|를|에|로|도|만|와|과)$/, ""); return r.length >= 2 ? r : t; };
+  const toks = q.toLowerCase().split(/[^가-힣a-z0-9&.']+/).map(stem).filter(t => t.length >= 2 && !STOPTOK.has(t));
+  const bi = new Set();
+  for (const t of toks) {
+    if (!/[가-힣]/.test(t)) continue;                 // 영문 토큰은 통째로만 비교
+    for (let i = 0; i < t.length - 1; i++) {
+      const b = t.slice(i, i + 2);
+      if (!STOPBI.has(b) && !STOPBI2.has(b)) bi.add(b);
+    }
+  }
+  return {toks, bi};
+}
+function hasToken(hay, t) {
+  if (/^[a-z0-9]+$/.test(t) && t.length < 4) return new RegExp("(^|[^a-z0-9])" + t + "([^a-z0-9]|$)").test(hay);
+  return hay.includes(t);
+}
+function score(hay, T, name = "") {
+  let s = 0;
+  for (const t of T.toks) { if (hasToken(hay, t)) s += 3; if (name.includes(t)) s += 3; }
+  for (const b of T.bi) if (hay.includes(b)) s += 1;
+  return s;
+}
+function findPreset(q) {
+  const exact = PRESETS.find(p => p.label === q.trim());
+  if (exact) return exact;
+  const T = terms(q);
+  let best = null, top = 0;
+  for (const p of PRESETS) {
+    const sc = score(p.keys.toLowerCase(), T);        // 라벨 말고 키워드로만 비교
+    if (sc > top) { top = sc; best = p; }
+  }
+  return top >= 3 ? best : null;
+}
+function findSites(q, skip) {
+  const T = terms(q);
+  const ranked = HAY.map(h => ({o: h.o, sc: score(h.hay, T, h.name)})).filter(r => !skip.has(r.o.it[0]));
+  const top = Math.max(0, ...ranked.map(r => r.sc));
+  const need = Math.min(4, 3 * T.toks.length);
+  return ranked.filter(r => r.sc >= need && r.sc >= top * 0.5)
+    .sort((a, b) => b.sc - a.sc).slice(0, 6).map(r => r.o);
+}
+
 let active = "all", query = "";
 
-function cardHtml(it) {
+function cardHtml(it, step) {
   const [name, ko, url, text, when] = it;
   const h = hue(name);
   return `<a class="card" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
     <div class="thumb">
+      ${step ? `<span class="step" aria-label="${step}번째">${step}</span>` : ""}
       <div class="ph" style="background:linear-gradient(135deg,hsl(${h} 50% 42%),hsl(${(h+40)%360} 55% 32%))" aria-hidden="true">${esc(name[0])}</div>
       <img src="${esc(thumbUrl(name))}" alt="${esc(name)} 첫 화면" loading="lazy" decoding="async" onerror="this.remove()">
       <span class="go" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span>
@@ -224,17 +372,37 @@ function cardHtml(it) {
     </div></a>`;
 }
 
+function sectionHtml(id, num, title, count, desc, cards, cls = "") {
+  return `<section id="${id}" class="${cls}"><div class="sec-head"><span class="num">${num}</span><h2>${esc(title)}</h2><span class="count">${count}곳</span></div>${desc}<div class="grid">${cards}</div></section>`;
+}
+
 function render() {
-  const q = query.trim().toLowerCase();
-  let shown = 0;
-  $("#main").innerHTML = CATS.map((c, ci) => {
-    if (active !== "all" && active !== c.id) return "";
-    const items = c.items.filter(it => !q || it.join(" ").toLowerCase().includes(q));
-    if (!items.length) return "";
-    shown += items.length;
-    return `<section id="${c.id}"><div class="sec-head"><span class="num">${String(ci + 1).padStart(2, "0")}</span><h2>${esc(c.title)}</h2><span class="count">${items.length}곳</span></div><p class="desc">${esc(c.desc)}</p>
-      <div class="grid">${items.map(cardHtml).join("")}</div></section>`;
-  }).join("");
+  const q = query.trim();
+  let shown = 0, html = "";
+  document.querySelectorAll(".worry").forEach(b => b.setAttribute("aria-pressed", b.textContent === q));
+  if (q) {
+    const preset = findPreset(q);
+    const skip = new Set(preset ? preset.picks : []);
+    if (preset) {
+      shown += preset.picks.length;
+      html += sectionHtml("solve", "→", "이 고민이라면, 이 순서로", preset.picks.length,
+        `<p class="tip">${esc(preset.tip)}</p>`,
+        preset.picks.map((n, i) => cardHtml(byName[n].it, i + 1)).join(""), "solve");
+    }
+    const more = findSites(q, skip);
+    if (more.length) {
+      shown += more.length;
+      html += sectionHtml("related", "··", preset ? "함께 보면 좋은 사이트" : "검색 결과", more.length, "",
+        more.map(o => cardHtml(o.it)).join(""));
+    }
+  } else {
+    html = CATS.map((c, ci) => {
+      if (active !== "all" && active !== c.id) return "";
+      shown += c.items.length;
+      return sectionHtml(c.id, String(ci + 1).padStart(2, "0"), c.title, c.items.length, `<p class="desc">${esc(c.desc)}</p>`, c.items.map(it => cardHtml(it)).join(""));
+    }).join("");
+  }
+  $("#main").innerHTML = html;
   $("#empty").style.display = shown ? "none" : "block";
 }
 
@@ -248,6 +416,15 @@ $("#chips").addEventListener("click", e => {
   window.scrollTo({top: document.querySelector(".toolbar").offsetTop, behavior: "smooth"});
 });
 $("#q").addEventListener("input", e => { query = e.target.value; render(); });
+
+// 고민 칩: 누르면 검색창에 채우고 추천 경로를 보여준다
+$("#worries").innerHTML = PRESETS.map(p => `<button class="worry" aria-pressed="false">${esc(p.label)}</button>`).join("");
+$("#worries").addEventListener("click", e => {
+  const b = e.target.closest(".worry"); if (!b) return;
+  query = b.textContent; $("#q").value = query;
+  render();
+  window.scrollTo({top: document.querySelector(".toolbar").offsetTop, behavior: "smooth"});
+});
 
 // 상황별 바로가기
 const GUIDE = [
