@@ -32,7 +32,7 @@ export function SiteCard({ site, step, why }: Props) {
       target="_blank"
       rel="noopener noreferrer"
       onPointerMove={spotlight}
-      className="card-reveal group relative flex flex-col overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card active:scale-[.985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="card-reveal group relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card active:scale-[.985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <span
         aria-hidden
@@ -73,19 +73,22 @@ export function SiteCard({ site, step, why }: Props) {
           <ArrowUpRight size={16} strokeWidth={1.8} />
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 px-[18px] pb-[18px] pt-4">
+      {/* 아래 3개 행은 부모 그리드의 행을 공유(subgrid)해서, 같은 줄 카드끼리 제목·설명·"이럴 때" 위치가 항상 맞는다. */}
+      <div className="px-5 pt-4">
         <div className="text-[17px] font-bold leading-snug tracking-tight">
           {site.name} <span className="text-[13px] font-normal tracking-normal text-muted">{site.ko}</span>
         </div>
-        <div className="text-xs text-muted">{host(site.url)}</div>
-        <p className="mt-1 text-sm text-ink-2">{site.text}</p>
-        {why?.length ? <div className="text-xs font-semibold text-accent">추천 이유 · {why.join(" · ")}</div> : null}
-        <div className="mt-auto flex gap-2 pt-3.5 text-[13px] text-ink-2">
-          <em className="mt-0.5 h-fit flex-none rounded-md bg-accent-soft px-[7px] py-0.5 text-[11px] font-bold not-italic text-accent">
-            이럴 때
-          </em>
-          <span>{site.when}</span>
-        </div>
+        <div className="mt-1 text-xs text-muted">{host(site.url)}</div>
+      </div>
+      <div className="px-5 pt-3">
+        <p className="text-sm text-ink-2">{site.text}</p>
+        {why?.length ? <div className="mt-2 text-xs font-semibold text-accent">추천 이유 · {why.join(" · ")}</div> : null}
+      </div>
+      <div className="mx-5 mb-5 mt-4 flex flex-col items-start gap-2 border-t border-line pt-3 text-[13px] leading-normal text-ink-2">
+        <em className="rounded-md bg-accent-soft px-2 py-0.5 text-[11px] font-bold leading-none not-italic text-accent">
+          이럴 때
+        </em>
+        <span>{site.when}</span>
       </div>
     </a>
   )

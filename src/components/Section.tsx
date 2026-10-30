@@ -26,5 +26,5 @@ export function Section({ id, num, title, count, desc, tip, children }: Props) {
 }
 
 export function Grid({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-5">{children}</div>
+  return <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-x-5 gap-y-0 [&>a]:mb-5">{children}</div>
 }
