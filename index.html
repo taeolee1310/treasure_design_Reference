@@ -12,7 +12,7 @@
   --bg:#f5f3ee; --surface:#fffdf9; --ink:#1b1a17; --ink-2:#4a4741; --muted:#7a766d; --line:#e3dfd5; --line-2:#d3cec1;
   --accent:#d9480f; --accent-soft:#fbe9df; --chip:#ece8de;
   --shadow:0 1px 1px rgba(30,25,15,.04),0 10px 30px -8px rgba(30,25,15,.16);
-  --r:18px; --ease:cubic-bezier(.2,.7,.2,1);
+  --r:18px; --ease:cubic-bezier(0.23,1,0.32,1);
 }
 @media (prefers-color-scheme:dark){
   :root{--bg:#121211;--surface:#1b1a18;--ink:#f3f0e8;--ink-2:#c9c5ba;--muted:#928e84;--line:#2b2926;--line-2:#3a3733;--accent:#ff8a4c;--accent-soft:#2c1d14;--chip:#252320;--shadow:0 1px 1px rgba(0,0,0,.4),0 14px 34px -8px rgba(0,0,0,.6)}
@@ -35,7 +35,6 @@ h1{font-size:clamp(40px,8vw,84px);line-height:1.04;margin:14px 0 18px;letter-spa
 
 .guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:36px 0 0;padding:0;list-style:none}
 .guide button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:4px;width:100%;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;transition:border-color .2s,transform .2s var(--ease)}
-.guide button:hover{border-color:var(--accent);transform:translateY(-2px)}
 .guide button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .guide b{font-size:15px;font-weight:700}
 .guide span{font-size:13px;color:var(--muted)}
@@ -46,7 +45,6 @@ h1{font-size:clamp(40px,8vw,84px);line-height:1.04;margin:14px 0 18px;letter-spa
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
 .chip small{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.chip:hover{border-color:var(--line-2);color:var(--ink)}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip[aria-pressed=true] small{color:inherit;opacity:.7}
 .search{flex:0 1 260px;min-width:150px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;transition:border-color .15s}
@@ -63,13 +61,11 @@ section .desc{color:var(--ink-2);margin:0 0 22px;max-width:680px;font-size:15px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
 
 .card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
-.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-2)}
 .thumb{position:relative;aspect-ratio:3/2;background:var(--chip);overflow:hidden;border-bottom:1px solid var(--line)}
-.thumb img{position:relative;width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .5s var(--ease)}
-.card:hover .thumb img{transform:scale(1.035)}
+.thumb img{position:relative;width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .35s var(--ease)}
 .thumb .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:48px;font-weight:800;color:rgba(255,255,255,.92)}
 .go{position:absolute;right:12px;top:12px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--surface);color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.18);opacity:0;transform:translate(-4px,4px);transition:opacity .2s,transform .25s var(--ease)}
-.card:hover .go,.card:focus-visible .go{opacity:1;transform:none}
+.card:focus-visible .go{opacity:1;transform:none}
 .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
 .name{font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-.02em}
 .ko{font-weight:400;color:var(--muted);font-size:13px;letter-spacing:0}
@@ -81,6 +77,33 @@ section .desc{color:var(--ink-2);margin:0 0 22px;max-width:680px;font-size:15px}
 footer{padding:72px 0;color:var(--muted);font-size:13px}
 footer .wrap{border-top:1px solid var(--line);padding-top:24px}
 
+/* Motion: hover (pointer devices only), press, hero entrance, scroll reveal */
+@media (hover:hover) and (pointer:fine){
+  .guide button:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .chip:hover{border-color:var(--line-2);color:var(--ink)}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-2)}
+  .card:hover .thumb img{transform:scale(1.035)}
+  .card:hover .go{opacity:1;transform:none}
+}
+@media (hover:none){.go{opacity:1;transform:none}}
+.chip,.guide button,.card{-webkit-tap-highlight-color:transparent}
+.chip:active{transform:scale(.96)}
+.guide button:active,.card:active{transform:scale(.985)}
+.chip{transition:background .15s,color .15s,border-color .15s,transform .12s var(--ease)}
+
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+header .wrap>*{animation:rise .5s var(--ease) both;animation-delay:calc(var(--i,0)*70ms)}
+header .wrap>:nth-child(1){--i:0}
+header .wrap>:nth-child(2){--i:1}
+header .wrap>:nth-child(3){--i:2}
+header .wrap>:nth-child(4){--i:3}
+header .wrap>:nth-child(5){--i:4}
+
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}}
+@supports (animation-timeline:view()){
+  .card{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% entry 30%}
+}
+
 @media (max-width:640px){
   .toolbar .wrap{flex-direction:column;align-items:stretch;gap:10px}
   .search{flex:none;width:100%}
@@ -90,8 +113,10 @@ footer .wrap{border-top:1px solid var(--line);padding-top:24px}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:.01ms!important}
-  .card:hover,.guide button:hover{transform:none}
+  .card:hover,.guide button:hover,.card:active,.chip:active{transform:none}
   .card:hover .thumb img{transform:none}
+  @keyframes rise{from{opacity:0}}
+  @keyframes reveal{from{opacity:0}}
 }
 </style>
 </head>
