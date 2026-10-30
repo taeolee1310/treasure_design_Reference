@@ -67,7 +67,7 @@ export function TextRotate({
     const words = text.split(" ")
     return words.map((word, wi) => (
       <Fragment key={wi}>
-        <span className="inline-block overflow-hidden pb-1 align-bottom whitespace-nowrap">
+        <span className="-my-0.5 inline-block overflow-hidden py-0.5 align-bottom whitespace-nowrap">
           {(splitBy === "characters" ? Array.from(word) : [word]).map((piece, pi) => (
             <span
               key={pi}
@@ -84,7 +84,7 @@ export function TextRotate({
   }
 
   return (
-    <span className={join("inline-grid", className)}>
+    <span className={join("inline-grid text-center", className)}>
       <span aria-hidden className="invisible col-start-1 row-start-1">
         {longest}
       </span>

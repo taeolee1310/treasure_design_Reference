@@ -85,7 +85,7 @@ export function SiteCard({ site, step, why }: Props) {
         {why?.length ? <div className="mt-2 text-xs font-semibold text-accent">추천 이유 · {why.join(" · ")}</div> : null}
       </div>
       <div className="mx-5 mb-5 mt-4 flex flex-col items-start gap-2 border-t border-line pt-3 text-[13px] leading-normal text-ink-2">
-        <em className="rounded-md bg-accent-soft px-2 py-0.5 text-[11px] font-bold leading-none not-italic text-accent">
+        <em className="inline-flex h-5 items-center justify-center rounded-md bg-accent-soft px-2 text-[11px] font-bold leading-none not-italic text-accent">
           이럴 때
         </em>
         <span>{site.when}</span>

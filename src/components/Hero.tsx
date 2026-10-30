@@ -69,7 +69,7 @@ export function Hero({ current, onPickWorry, onGuide }: Props) {
               onPointerLeave={() => setHold(false)}
               onFocus={() => setHold(true)}
               onBlur={() => setHold(false)}
-              className="rounded-full border border-line-2 bg-surface px-3.5 py-1.5 text-left text-[15px] font-semibold text-ink transition duration-150 ease-out-strong hover:border-accent active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="rounded-full border border-line-2 bg-surface px-3.5 py-2 text-center text-[15px] leading-normal font-semibold text-ink transition duration-150 ease-out-strong hover:border-accent active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <TextRotate texts={WORRY_LABELS} paused={hold} onChange={setIdx} rotationInterval={2800} staggerDuration={18} />
             </button>
