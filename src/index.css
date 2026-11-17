@@ -89,32 +89,12 @@
   }
 }
 
-/* 카드 등장: 스크롤 연동(Chromium). 미지원 브라우저는 그냥 표시 */
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-}
-@utility card-reveal {
-  @supports (animation-timeline: view()) {
-    animation: reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 30%;
-  }
-}
-
 /* 동작 줄이기: 위치 이동은 빼고 페이드만 남긴다 */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   @keyframes rise {
-    from {
-      opacity: 0;
-    }
-  }
-  @keyframes reveal {
     from {
       opacity: 0;
     }

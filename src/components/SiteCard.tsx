@@ -31,7 +31,7 @@ export function SiteCard({ site, step, why }: Props) {
   return (
     <article
       onPointerMove={spotlight}
-      className="card-reveal group relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent"
+      className="group relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent"
     >
       <span
         aria-hidden
