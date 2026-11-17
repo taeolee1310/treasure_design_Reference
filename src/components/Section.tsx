@@ -32,9 +32,10 @@ export function Grid({ children }: { children: ReactNode }) {
   // FadeContent의 래퍼가 그대로 그리드가 된다. 카드가 래퍼의 직계 자식이라 subgrid 정렬이 유지되고, 카드가 차례로 나타난다.
   return (
     <FadeContent
-      stagger={0.14}
-      duration={1.64}
-      threshold={0.05}
+      stagger={0.16}
+      duration={2.35}
+      ease="power1.out"
+      threshold={0.15}
       className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-x-5 gap-y-0 [&>article]:mb-5"
     >
       {children}
