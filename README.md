@@ -82,6 +82,16 @@ Text Rotate와 Spotlight Card는 새 의존성 없이 CSS로 구현했고, FadeC
 
 `AI prompt Box`도 검토했지만 framer-motion과 radix 의존성이 붙고 파일·음성 기능까지 있어서 이 서비스에는 무거워 제외했습니다.
 
+## 비밀번호
+
+개인용 사이트라서 전체에 6자리 비밀번호를 걸어 두었습니다. [middleware.ts](middleware.ts)가 Vercel에서 캐시보다 앞에 실행되기 때문에, 로그인 전에는 HTML·JS·이미지 어느 것도 내려가지 않고 [로그인 화면](gate/page.ts)만 나갑니다.
+
+- **비밀번호는 코드에 없습니다.** Vercel 환경 변수 `SITE_PASSWORD`에 6자리 숫자를 넣어야 하고, 값은 저장소에 올리지 않습니다. 변수가 없으면 사이트는 열리지 않습니다(503).
+- Vercel 프로젝트 → Settings → Environment Variables에서 `SITE_PASSWORD`를 Production(필요하면 Preview도)에 추가한 뒤 다시 배포합니다.
+- 비밀번호를 바꾸면 이전에 로그인한 기기는 모두 로그아웃됩니다.
+- 틀리면 0.9초 늦게 거절합니다. 6자리 숫자는 경우의 수가 100만 개라서, 시도 횟수 제한은 Vercel 대시보드 → Firewall → Rate Limit에서 `/__login` 경로에 걸어 두세요(예: 분당 10회).
+- 테스트: `node tests/gate.test.mjs` (테스트용 값만 씁니다).
+
 ## 배포
 
 GitHub 저장소를 Vercel에 연결해 두었습니다. `main`에 push하면 `vercel.json` 설정(Vite, `dist`)대로 자동 빌드·배포됩니다.

@@ -2,5 +2,33 @@
   "framework": "vite",
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noai, noimageai"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(AI2Bot|Ai2Bot-Dolma|aiohttp|Amazonbot|anthropic-ai|Apache-HttpClient|Applebot-Extended|axios|Bytespider|CCBot|ChatGPT-User|Claude-SearchBot|Claude-User|Claude-Web|ClaudeBot|cohere-ai|cohere-training-data-crawler|Diffbot|DuckAssistBot|FacebookBot|Go-http-client|Google-Extended|GoogleOther|GPTBot|HeadlessChrome|HTTrack|ImagesiftBot|Java\\/|libwww-perl|Meta-ExternalAgent|meta-externalagent|MistralAI-User|node-fetch|OAI-SearchBot|okhttp|Omgilibot|Perplexity-User|PerplexityBot|PhantomJS|python-httpx|python-requests|python-urllib|scrapy|Scrapy|Timpibot|Webzio-Extended|Wget|YouBot).*"
+        }
+      ],
+      "destination": "/blocked-bot"
+    }
+  ]
 }
