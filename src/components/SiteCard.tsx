@@ -1,6 +1,7 @@
 import type { PointerEvent } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Heart } from "lucide-react"
 import type { Site } from "@/data/sites"
+import { toggleFav, useFavs } from "@/lib/favorites"
 
 const hue = (s: string) => {
   let h = 0
@@ -26,13 +27,11 @@ type Props = { site: Site; step?: number; why?: string[] }
 
 export function SiteCard({ site, step, why }: Props) {
   const h = hue(site.name)
+  const saved = useFavs().includes(site.name)
   return (
-    <a
-      href={site.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <article
       onPointerMove={spotlight}
-      className="card-reveal group relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card active:scale-[.985] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="card-reveal group relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-[18px] border border-line bg-surface transition duration-300 ease-out-strong hover:-translate-y-1 hover:border-line-2 hover:shadow-card has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent"
     >
       <span
         aria-hidden
@@ -46,7 +45,7 @@ export function SiteCard({ site, step, why }: Props) {
         {step ? (
           <span
             aria-label={`${step}번째`}
-            className="absolute left-3 top-3 z-10 grid size-7 place-items-center rounded-full bg-accent text-sm font-extrabold text-on-accent shadow-md"
+            className="pointer-events-none absolute left-3 top-3 z-10 grid size-7 place-items-center rounded-full bg-accent text-sm font-extrabold text-on-accent shadow-md"
           >
             {step}
           </span>
@@ -68,7 +67,7 @@ export function SiteCard({ site, step, why }: Props) {
         />
         <span
           aria-hidden
-          className="absolute right-3 top-3 grid size-[34px] -translate-x-1 translate-y-1 place-items-center rounded-full bg-surface text-ink opacity-0 shadow-md transition duration-200 ease-out-strong group-hover:translate-0 group-hover:opacity-100 group-focus-visible:translate-0 group-focus-visible:opacity-100 pointer-coarse:translate-0 pointer-coarse:opacity-100"
+          className="pointer-events-none absolute bottom-3 right-3 grid size-[34px] -translate-x-1 translate-y-1 place-items-center rounded-full bg-surface text-ink opacity-0 shadow-md transition duration-200 ease-out-strong group-hover:translate-0 group-hover:opacity-100 group-has-[a:focus-visible]:translate-0 group-has-[a:focus-visible]:opacity-100 pointer-coarse:translate-0 pointer-coarse:opacity-100"
         >
           <ArrowUpRight size={16} strokeWidth={1.8} />
         </span>
@@ -76,7 +75,14 @@ export function SiteCard({ site, step, why }: Props) {
       {/* 아래 3개 행은 부모 그리드의 행을 공유(subgrid)해서, 같은 줄 카드끼리 제목·설명·"이럴 때" 위치가 항상 맞는다. */}
       <div className="px-5 pt-4">
         <div className="text-[17px] font-bold leading-snug tracking-tight">
-          {site.name} <span className="text-[13px] font-normal tracking-normal text-muted">{site.ko}</span>
+          <a
+            href={site.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="after:absolute after:inset-0 after:z-10 focus-visible:outline-none"
+          >
+            {site.name} <span className="text-[13px] font-normal tracking-normal text-muted">{site.ko}</span>
+          </a>
         </div>
         <div className="mt-1 text-xs text-muted">{host(site.url)}</div>
       </div>
@@ -90,6 +96,15 @@ export function SiteCard({ site, step, why }: Props) {
         </em>
         <span>{site.when}</span>
       </div>
-    </a>
+      <button
+        type="button"
+        aria-pressed={saved}
+        aria-label={`${site.name} ${saved ? "찜 해제" : "찜하기"}`}
+        onClick={() => toggleFav(site.name)}
+        className="absolute right-3 top-3 z-30 grid size-9 place-items-center rounded-full bg-surface text-ink-2 shadow-md transition duration-150 ease-out-strong before:absolute before:-inset-1 before:content-[''] hover:text-accent active:scale-90 aria-pressed:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      >
+        <Heart size={17} strokeWidth={1.8} className={saved ? "fill-current" : undefined} />
+      </button>
+    </article>
   )
 }

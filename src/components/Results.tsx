@@ -1,4 +1,5 @@
 import { CATEGORIES } from "@/data/sites"
+import { useFavs } from "@/lib/favorites"
 import { byName, presets, type QueryResult } from "@/lib/engine"
 import { Grid, Section } from "@/components/Section"
 import { SiteCard } from "@/components/SiteCard"
@@ -6,9 +7,31 @@ import { WorryChips } from "@/components/WorryChip"
 
 const labels = presets.map((p) => p.label)
 
+function Saved({ empty }: { empty: boolean }) {
+  const favs = useFavs()
+  if (!favs.length && !empty) return null
+  return (
+    <Section id="fav" num="♥" title="찜한 사이트" count={favs.length}>
+      {favs.length ? (
+        <Grid>
+          {favs.map((n) => (
+            <SiteCard key={n} site={byName[n]} />
+          ))}
+        </Grid>
+      ) : (
+        <p className="rounded-[14px] border border-dashed border-line-2 px-5 py-10 text-center text-[15px] text-muted">
+          카드 오른쪽 위의 하트를 누르면 자주 쓰는 사이트가 여기에 모입니다.
+        </p>
+      )}
+    </Section>
+  )
+}
+
 export function Browse({ active }: { active: string }) {
+  if (active === "fav") return <Saved empty />
   return (
     <>
+      {active === "all" ? <Saved empty={false} /> : null}
       {CATEGORIES.map((c, i) =>
         active !== "all" && active !== c.id ? null : (
           <Section key={c.id} id={c.id} num={String(i + 1).padStart(2, "0")} title={c.title} count={c.items.length} desc={c.desc}>
