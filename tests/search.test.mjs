@@ -16,6 +16,7 @@ const T = [
   ["결제 화면 참고하고 싶어요", ["Mobbin","Refero"]],
   ["버튼 호버 모션을 어떻게 움직일지 모르겠어요", ["DesignBookmark Motion"]],
   ["움직이는 컴포넌트 프롬프트로 복사하고 싶어", ["DesignBookmark Motion"]],
+  ["클로드한테 노션이랑 슬랙 연결해 주고 싶어", ["Smithery"]],
   ["회원가입 플로우 사례", ["Mobbin"]],
   ["앱 화면 구성이 막막해요", ["Mobbin","Refero"], "화면 구성"],
   ["필터 UI 예시", ["Refero","Collect UI"]],

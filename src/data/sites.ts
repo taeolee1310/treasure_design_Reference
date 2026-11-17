@@ -243,6 +243,13 @@ export const CATEGORIES: Category[] = [
         "when": "인터랙션이 어떻게 움직여야 하는지 보고, 개발에 바로 넘길 때"
       },
       {
+        "name": "Smithery",
+        "ko": "스미더리",
+        "url": "https://www.smithery.ai/",
+        "text": "Claude 같은 AI가 외부 도구와 서비스를 쓰게 해주는 MCP 서버를 모아 둔 마켓. Slack·Notion·Linear·Gmail 같은 서버를 검색해서 연결합니다.",
+        "when": "AI에게 Notion·Slack·Linear 같은 작업 도구를 연결해 주고 싶을 때"
+      },
+      {
         "name": "Framer",
         "ko": "프레이머",
         "url": "https://www.framer.com/solutions/marketers/",
