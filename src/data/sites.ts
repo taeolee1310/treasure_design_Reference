@@ -236,6 +236,13 @@ export const CATEGORIES: Category[] = [
         "when": "실제로 구현 가능한 컴포넌트와 인터랙션을 확인할 때"
       },
       {
+        "name": "DesignBookmark Motion",
+        "ko": "디자인북마크 모션",
+        "url": "https://designbookmark.com/motion",
+        "text": "버튼·입력창·내비게이션·카드·AI·텍스트 모션 컴포넌트를 실제로 움직이는 채로 모아 둔 라이브러리. 마음에 드는 걸 Claude·Codex용 프롬프트나 코드로 바로 복사합니다.",
+        "when": "인터랙션이 어떻게 움직여야 하는지 보고, 개발에 바로 넘길 때"
+      },
+      {
         "name": "Framer",
         "ko": "프레이머",
         "url": "https://www.framer.com/solutions/marketers/",
